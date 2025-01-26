@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "InterviewTemplate"
+rootProject.name = "Circles-Design-Component"
 include(":app")
- 
+include(":compose-component")

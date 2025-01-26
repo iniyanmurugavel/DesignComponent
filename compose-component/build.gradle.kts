@@ -1,22 +1,17 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
-    id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
-    kotlin("plugin.serialization") version "2.0.20"
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    id("maven-publish")
 }
 
 android {
-    namespace = "com.circles.compose"
+    namespace = "com.circles.composecomponent"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.circles.compose"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -51,7 +46,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":compose-component"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
@@ -71,8 +66,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
 
     implementation(libs.retrofit)
     implementation(libs.okhttp)
@@ -87,4 +80,17 @@ dependencies {
 
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.circles.onic"
+                artifactId = "compose-circles"
+                version = "1.0.0"
+            }
+        }
+    }
 }
